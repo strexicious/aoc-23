@@ -197,11 +197,11 @@ func part2(in string) string {
 			// a proper loop).
 			// Following cases mean we change sides:
 			// 1)      |                  2)             |
-			//  Inside L---7 Outside         Inside F----J Outside
+			//  Side A L---7 Side B          Side A F----J Side B
 			//             |                        |
 			// But for following we stay on the same side.
 			// 1)      |   |              2)
-			//  Inside L---J Inside         Outside F----7 Outside
+			//  Side A L---J Side A         Side A  F----7 Side A
 			//                                      |    |
 
 			pipe := g[i][j]
