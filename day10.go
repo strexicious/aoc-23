@@ -171,7 +171,8 @@ func part2(in string) string {
 	for i, l := range g {
 		boundMap[i] = make([]bool, len(l))
 	}
-	mark(start, paths, ln, boundMap)
+
+	g[start.y][start.x] = mark(start, paths, ln, boundMap)
 
 	// scan boundary map and count the cells that fall inside the loop
 	total := 0
@@ -206,7 +207,7 @@ func part2(in string) string {
 			pipe := g[i][j]
 			if pipe == '-' {
 				continue
-			} else if pipe == '|' || pipe == 'S' {
+			} else if pipe == '|' {
 				inside = !inside
 			} else if pipe == 'L' {
 				expectedJoint = '7'
@@ -229,16 +230,44 @@ func part2(in string) string {
 	return fmt.Sprintf("%d", total)
 }
 
-func mark(start V, paths map[V]From, ln LoopNode, boundMap [][]bool) {
+// traverses the paths from loop node all the way to the start,
+// marking the boundary cells along the way. Also computes the start
+// pipe that completes the loop in g and returns the pipe as a result
+func mark(start V, paths map[V]From, ln LoopNode, boundMap [][]bool) byte {
 	boundMap[start.y][start.x] = true
 	boundMap[ln.v.y][ln.v.x] = true
 
+	var startNeighA, startNeighB V
 	for next := ln.pa; next != start; next = paths[next].p {
 		boundMap[next.y][next.x] = true
+		startNeighA = next
 	}
 
 	for next := ln.pb; next != start; next = paths[next].p {
 		boundMap[next.y][next.x] = true
+		startNeighB = next
+	}
+
+	if startNeighA.y == startNeighB.y {
+		return '-'
+	}
+
+	if startNeighA.x == startNeighB.x {
+		return '|'
+	}
+
+	if startNeighA.x > start.x || startNeighB.x > start.x {
+		if startNeighB.y < start.y || startNeighA.y < start.y {
+			return 'L'
+		} else {
+			return 'F'
+		}
+	} else {
+		if startNeighB.y < start.y || startNeighA.y < start.y {
+			return 'J'
+		} else {
+			return '7'
+		}
 	}
 }
 
