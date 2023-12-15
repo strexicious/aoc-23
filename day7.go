@@ -27,15 +27,15 @@ const (
 	FiveKind
 )
 
-func cardStregnth(c byte) int {
+func cardStrength(c byte) int {
 	return -strings.IndexByte(VALID_CARDS, c)
 }
 
-func cardStregnthPart2(c byte) int {
+func cardStrengthPart2(c byte) int {
 	if c == 'J' {
 		return -20
 	}
-	return cardStregnth(c)
+	return cardStrength(c)
 }
 
 func newHand(cs []byte) Hand {
@@ -149,8 +149,8 @@ func part1(in string) string {
 
 		// TODO: hardcoded 5, assumed to be n. of cards in a Hand
 		for idx := 0; idx < 5; idx += 1 {
-			ca := cardStregnth(bids[i].h[idx])
-			cb := cardStregnth(bids[j].h[idx])
+			ca := cardStrength(bids[i].h[idx])
+			cb := cardStrength(bids[j].h[idx])
 			if ca != cb {
 				return ca < cb
 			}
@@ -187,8 +187,8 @@ func part2(in string) string {
 
 		// TODO: hardcoded 5, assumed to be n. of cards in a Hand
 		for idx := 0; idx < 5; idx += 1 {
-			ca := cardStregnthPart2(bids[i].h[idx])
-			cb := cardStregnthPart2(bids[j].h[idx])
+			ca := cardStrengthPart2(bids[i].h[idx])
+			cb := cardStrengthPart2(bids[j].h[idx])
 			if ca != cb {
 				return ca < cb
 			}
